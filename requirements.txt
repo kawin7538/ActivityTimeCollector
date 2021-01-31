@@ -1,13 +1,9 @@
 certifi==2020.12.5
 click==7.1.2
-fastapi @ file:///home/conda/feedstock_root/build_artifacts/fastapi_1610101993319/work
+fastapi==0.63.0
 gunicorn==20.0.4
-h11 @ file:///home/conda/feedstock_root/build_artifacts/h11_1609518832927/work
-pydantic @ file:///D:/bld/pydantic_1606818941099/work
-python-dotenv @ file:///home/conda/feedstock_root/build_artifacts/python-dotenv_1603979006023/work
-PyYAML==5.4.1
-starlette @ file:///home/conda/feedstock_root/build_artifacts/starlette_1595508258730/work
-uvicorn @ file:///D:/bld/uvicorn_1609266757542/work
-watchgod @ file:///home/conda/feedstock_root/build_artifacts/watchgod_1592453122359/work
-websockets @ file:///D:/bld/websockets_1610127685432/work
+h11==0.12.0
+pydantic==1.7.3
+starlette==0.13.6
+uvicorn==0.13.3
 wincertstore==0.2
