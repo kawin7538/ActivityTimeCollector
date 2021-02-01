@@ -13,7 +13,7 @@ models.Base.metadata.create_all(bind=engine)
 app=FastAPI(title="Activity Time Collector")
 
 @app.middleware("http")
-async def db_session_middleware(request: Request, call_next):
+def db_session_middleware(request: Request, call_next):
     response = Response("Internal server error", status_code=500)
     try:
         request.state.db = SessionLocal()
@@ -31,7 +31,7 @@ def get_db():
         db.close()
 
 @app.get("/")
-async def main():
+def main():
     return "This is the first page"
 
 @app.post("/activities/", response_model=schemas.Activity)
