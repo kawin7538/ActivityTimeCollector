@@ -1,10 +1,4 @@
-from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-async def main():
-    return "This is main page from FastAPI"
+from app.handlers import app
 
 if __name__ == '__main__':
     import uvicorn
