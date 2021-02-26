@@ -58,3 +58,10 @@ async def read_activities(request: Request,db: Session = Depends(get_db)):
     }
     # return activities
     return templates.TemplateResponse('activities.html',{"request": request,'data':data})
+
+@app.post("/delete_activity/{activity_id}",response_model=schemas.Activity)
+async def delete_activity(request: Request, activity_id:int ,db: Session = Depends(get_db)):
+    crud.get_activity(db,activity_id)
+    crud.delete_activity(db,activity_id)
+    # return {"detail": "Question deleted", "status_code": 204}
+    return RedirectResponse("/activities",status_code=303)

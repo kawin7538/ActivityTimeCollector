@@ -53,5 +53,8 @@ class ActivityCreate(ActivityBase):
     activity_name : str
     activity_time : float
 
+class ActivityDelete(ActivityBase):
+    activity_name: Optional[str]
+
 class Activity(ActivityBase):
     pass

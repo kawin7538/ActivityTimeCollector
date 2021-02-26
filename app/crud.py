@@ -14,3 +14,7 @@ def create_activity(db: Session, activity: schemas.ActivityCreate):
     db.commit()
     db.refresh(db_activity)
     return db_activity
+
+def delete_activity(db: Session, activity_id: int):
+    db.query(models.Activity).filter(models.Activity.activity_id == activity_id).delete()
+    return db.commit()
