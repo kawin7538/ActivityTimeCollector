@@ -12,7 +12,10 @@
     <div class="alert alert-success" id='messages' role="alert">
     </div>
     <script>
-        var ws = new WebSocket("ws://localhost:5000/ws");
+        var host = location.origin.replace('http','ws');
+        console.log(host+'/ws');
+        // var ws = new WebSocket("ws://localhost:5000/ws");
+        var ws = new WebSocket(host+'/ws');
         ws.onmessage = function(event) {
             var messages = document.getElementById('messages')
             // var message = document.createElement('li')
