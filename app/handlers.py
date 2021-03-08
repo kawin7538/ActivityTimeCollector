@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import FastAPI, Depends, HTTPException, Request, Response, Form
+from fastapi import FastAPI, Depends, HTTPException, Request, Response, Form, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, RedirectResponse
 # from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -37,9 +37,10 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/")
-async def main():
-    return "This is the first page"
+@app.get("/",response_class=HTMLResponse)
+async def main(request: Request):
+    # return "This is the first page"
+    return templates.TemplateResponse('mainpage.html',{"request": request})
 
 @app.post("/add_activity", response_model=schemas.Activity)
 async def create_activity(request: Request, activity_id: int = Form(...), activity_name: str = Form(...), activity_time: float = Form(...), db: Session = Depends(get_db)):
@@ -65,3 +66,13 @@ async def delete_activity(request: Request, activity_id:int ,db: Session = Depen
     crud.delete_activity(db,activity_id)
     # return {"detail": "Question deleted", "status_code": 204}
     return RedirectResponse("/activities",status_code=303)
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            data = await websocket.receive_text()
+            await websocket.send_text(f"Message text was: {data}")    
+    except WebSocketDisconnect:
+        print("Web Socket Disconnect")

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Activities Main Page{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+    <h1 class="display-1">Main Page</h1>
+    <form class="input-group" action="" onsubmit="sendMessage(event)">
+            <input type="text" id="messageText" class="form-control" autocomplete="off" placeholder="Type some activity name" autofocus/>
+            <button class="btn btn-primary">Search</button>
+    </form>
+    <div class="alert alert-success" id='messages' role="alert">
+    </div>
+    <script>
+        var ws = new WebSocket("ws://localhost:5000/ws");
+        ws.onmessage = function(event) {
+            var messages = document.getElementById('messages')
+            // var message = document.createElement('li')
+            // var content = document.createTextNode(event.data)
+            // message.appendChild(content)
+            // messages.appendChild(message)
+            messages.innerHTML=event.data
+            // console.log(event)
+        };
+        function sendMessage(event) {
+            var input = document.getElementById("messageText")
+            ws.send(input.value)
+            input.value = ''
+            event.preventDefault()
+        }
+    </script>
+{% endblock %}
