@@ -5,11 +5,29 @@
 {% endblock %}
 {% block content %}
     <h1 class="display-1">Main Page</h1>
+    <br>
     <form class="input-group" action="" onsubmit="sendMessage(event)">
-            <input type="text" id="messageText" class="form-control" autocomplete="off" placeholder="Type some activity name" autofocus/>
-            <button class="btn btn-primary">Search</button>
+        <input type="text" id="messageText" class="form-control" autocomplete="off" placeholder="Type some activity name" autofocus/>
+        <button class="btn btn-primary">Search</button>
     </form>
-    <div class="alert alert-success" id='messages' role="alert">
+    <br>
+    <div class="alert alert-primary" id='messages' role="alert">
+        Result will be shown HERE
+    </div>
+    <div class="alert alert-secondary" role="alert">
+        <div class="row">
+            <b>About ML Models</b>
+        </div><br>
+        {% for i in meta_dict %}
+            <div class="row">
+                <div class="col-3">
+                    <b>{{i}}</b>
+                </div>
+                <div class="col-9">
+                    {{meta_dict[i]}}
+                </div>
+            </div>
+        {% endfor %}
     </div>
     <script>
         var host = location.origin.replace('http','ws');
@@ -18,17 +36,18 @@
         var ws = new WebSocket(host+'/ws');
         ws.onmessage = function(event) {
             var messages = document.getElementById('messages')
-            // var message = document.createElement('li')
-            // var content = document.createTextNode(event.data)
-            // message.appendChild(content)
-            // messages.appendChild(message)
-            messages.innerHTML=event.data
-            // console.log(event)
+            messages.className="alert alert-success"
+            var answer=JSON.parse(event.data)
+            messages.innerHTML="<h5>Activity Time Estimated (minutes) : "+answer['answer']+'</h5><br><br>'
+            messages.innerHTML+="Process time elapsed (seconds) : "+answer['time_elapsed']
         };
         function sendMessage(event) {
             var input = document.getElementById("messageText")
+            var messages = document.getElementById('messages')
             ws.send(input.value)
             input.value = ''
+            messages.innerHTML="LOADING"
+            messages.className="alert alert-warning"
             event.preventDefault()
         }
     </script>

@@ -1,4 +1,5 @@
 from app.handlers import app
+from ml_models import *
 
 if __name__ == '__main__':
     import uvicorn

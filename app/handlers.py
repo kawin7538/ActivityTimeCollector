@@ -11,6 +11,11 @@ import logging
 
 from . import models, schemas, crud
 from .database import SessionLocal, engine
+# from ml_models.utility import split_transformer_func
+from ml_models import *
+from pythainlp import word_vector,word_tokenize
+from pythainlp.ulmfit import process_thai
+from datetime import datetime
 # from .schemas import as_form
 
 models.Base.metadata.create_all(bind=engine)
@@ -18,6 +23,8 @@ models.Base.metadata.create_all(bind=engine)
 app=FastAPI(title="Activity Time Collector")
 
 templates = Jinja2Templates(directory='templates')
+
+model_loader=ModelLoader()
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
@@ -40,7 +47,12 @@ def get_db():
 @app.get("/",response_class=HTMLResponse)
 async def main(request: Request):
     # return "This is the first page"
-    return templates.TemplateResponse('mainpage.html',{"request": request})
+    meta_dict=model_loader.get_meta()
+    return templates.TemplateResponse('mainpage.html',{"request": request,"meta_dict":meta_dict})
+
+@app.get('/implement',response_class=HTMLResponse)
+async def implement(request: Request):
+    return templates.TemplateResponse('implementation_page.html',{'request':request})
 
 @app.post("/add_activity", response_model=schemas.Activity)
 async def create_activity(request: Request, activity_id: int = Form(...), activity_name: str = Form(...), activity_time: float = Form(...), db: Session = Depends(get_db)):
@@ -73,6 +85,12 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text()
-            await websocket.send_text(f"Message text was: {data}")    
+            time1=datetime.now()
+            answer = model_loader.predict(data)
+            time2=datetime.now()
+            time_diff=time2-time1
+            print(time_diff.total_seconds())
+            # await websocket.send_text(f"Message text was: {answer}")
+            await websocket.send_json({'answer':answer,"time_elapsed":time_diff.total_seconds()})
     except WebSocketDisconnect:
         print("Web Socket Disconnect")
