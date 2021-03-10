@@ -8,3 +8,4 @@ pythainlp==2.2.6
 fastapi==0.63.0
 python-dotenv==0.15.0
 uvicorn==0.13.4
+psycopg2==2.8.6
