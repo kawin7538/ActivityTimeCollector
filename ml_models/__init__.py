@@ -4,7 +4,7 @@ import dill
 # from sklearn.preprocessing import StandardScaler, FunctionTransformer
 # from sklearn.linear_models import SGDRegressor
 # from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer, CountVectorizer
-from pythainlp import word_vector,word_tokenize
+from pythainlp import word_tokenize
 import pandas as pd 
 
 from .utility import split_transformer_func
