@@ -12,8 +12,8 @@ from .utility import split_transformer_func
 class ModelLoader:
     def __init__(self):
         # print(split_transformer_func)
-        self.meta=dill.load(open("ml_models/V1/meta_20210310115821.pkl","rb"))
-        self.clf=dill.load(open("ml_models/V1/pipeline_20210310115821.pkl","rb"))
+        self.meta=dill.load(open("ml_models/V1/meta_20210311082244.pkl","rb"))
+        self.clf=dill.load(open("ml_models/V1/pipeline_20210311082244.pkl","rb"))
 
     def get_meta(self):
         return self.meta
