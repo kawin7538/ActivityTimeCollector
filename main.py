@@ -1,5 +1,5 @@
 from app.handlers import app
-from ml_models import *
+# from ml_models import *
 import os
 
 if __name__ == '__main__':

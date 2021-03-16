@@ -7,8 +7,8 @@
     <h1 class="display-1">Main Page</h1>
     <br>
     <form class="input-group" action="" onsubmit="sendMessage(event)">
-        <input type="text" id="messageText" class="form-control" autocomplete="off" placeholder="Type some activity name" autofocus/>
-        <button class="btn btn-primary">Search</button>
+        <input type="text" id="messageText" class="form-control" autocomplete="off" placeholder="Type some activity name" disabled/>
+        <button class="btn btn-primary" disabled>Search</button>
     </form>
     <br>
     <div class="alert alert-primary" id='messages' role="alert">
@@ -29,7 +29,7 @@
             </div>
         {% endfor %}
     </div>
-    <script>
+    <!-- <script>
         var host = location.origin.replace('http','ws');
         console.log(host+'/ws');
         // var ws = new WebSocket("ws://localhost:5000/ws");
@@ -50,5 +50,5 @@
             messages.className="alert alert-warning"
             event.preventDefault()
         }
-    </script>
+    </script> -->
 {% endblock %}

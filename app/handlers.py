@@ -12,9 +12,9 @@ import logging
 from . import models, schemas, crud
 from .database import SessionLocal, engine
 # from ml_models.utility import split_transformer_func
-from ml_models import *
-from pythainlp import word_vector,word_tokenize
-from pythainlp.ulmfit import process_thai
+# from ml_models import *
+# from pythainlp import word_vector,word_tokenize
+# from pythainlp.ulmfit import process_thai
 from datetime import datetime
 # from .schemas import as_form
 
@@ -24,7 +24,7 @@ app=FastAPI(title="Activity Time Collector")
 
 templates = Jinja2Templates(directory='templates')
 
-model_loader=ModelLoader()
+# model_loader=ModelLoader()
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
@@ -47,7 +47,8 @@ def get_db():
 @app.get("/",response_class=HTMLResponse)
 async def main(request: Request):
     # return "This is the first page"
-    meta_dict=model_loader.get_meta()
+    # meta_dict=model_loader.get_meta()
+    meta_dict={}
     return templates.TemplateResponse('mainpage.html',{"request": request,"meta_dict":meta_dict})
 
 @app.get('/implement',response_class=HTMLResponse)
@@ -79,18 +80,18 @@ async def delete_activity(request: Request, activity_id:int ,db: Session = Depen
     # return {"detail": "Question deleted", "status_code": 204}
     return RedirectResponse("/activities",status_code=303)
 
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    try:
-        while True:
-            data = await websocket.receive_text()
-            time1=datetime.now()
-            answer = model_loader.predict(data)
-            time2=datetime.now()
-            time_diff=time2-time1
-            print(time_diff.total_seconds())
-            # await websocket.send_text(f"Message text was: {answer}")
-            await websocket.send_json({'answer':answer,"time_elapsed":time_diff.total_seconds()})
-    except WebSocketDisconnect:
-        print("Web Socket Disconnect")
+# @app.websocket("/ws")
+# async def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     try:
+#         while True:
+#             data = await websocket.receive_text()
+#             time1=datetime.now()
+#             answer = model_loader.predict(data)
+#             time2=datetime.now()
+#             time_diff=time2-time1
+#             print(time_diff.total_seconds())
+#             # await websocket.send_text(f"Message text was: {answer}")
+#             await websocket.send_json({'answer':answer,"time_elapsed":time_diff.total_seconds()})
+#     except WebSocketDisconnect:
+#         print("Web Socket Disconnect")
