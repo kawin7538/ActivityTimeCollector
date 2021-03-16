@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATABASE_URL=os.getenv('DATABASE_URL')
+DATABASE_URL=DATABASE_URL.replace("postgres","postgresql")
 
 engine = create_engine(
     # SQLALCHEMY_DATABASE_URL,connect_args={'client_encoding': 'utf8'}
